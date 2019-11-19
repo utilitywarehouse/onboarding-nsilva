@@ -3,6 +3,12 @@ ifeq ($(GIT_HASH),)
 GIT_HASH := $(shell git rev-parse HEAD)
 endif
 
+DOCKER_REGISTRY?=registry.uw.systems
+DOCKER_REPOSITORY_NAMESPACE?=onboarding
+DOCKER_ID?=onboarding
+DOCKER_REPOSITORY_IMAGE=onboarding-nsilva
+DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY_NAMESPACE)/$(DOCKER_REPOSITORY_IMAGE)
+
 default: test dev
 
 dev:
@@ -18,5 +24,8 @@ install:
 	go build -o bin/onboarding-nsilva
 
 docker_build: 
-	docker build -t onboarding-nsilva:$(GIT_HASH) .
-	docker tag onboarding-nsilva:$(GIT_HASH) onboarding-nsilva:latest
+	docker build -t $(DOCKER_REPOSITORY):$(GIT_HASH) .
+	docker tag $(DOCKER_REPOSITORY):$(GIT_HASH) $(DOCKER_REPOSITORY):latest
+
+docker_push:
+	docker push $(DOCKER_REPOSITORY)
