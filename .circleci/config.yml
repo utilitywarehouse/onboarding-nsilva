@@ -6,6 +6,9 @@ jobs:
 
     steps:
       - checkout
-      - run: wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.21.0
-      - run: make lint
-      - run: make test
+      
+      - setup_remote_docker:
+        docker_layer_caching: true
+
+      - run: |
+        make docker_build
