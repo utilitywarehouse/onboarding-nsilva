@@ -12,4 +12,5 @@ jobs:
 
       - run: |
           make docker_build
+          make docker_login
           make docker_push

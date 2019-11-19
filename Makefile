@@ -27,5 +27,8 @@ docker_build:
 	docker build -t $(DOCKER_REPOSITORY):$(GIT_HASH) .
 	docker tag $(DOCKER_REPOSITORY):$(GIT_HASH) $(DOCKER_REPOSITORY):latest
 
+docker_login:
+	echo $(UW_DOCKER_PASS) | docker login --username $(DOCKER_ID) --password-stdin $(DOCKER_REGISTRY)
+
 docker_push:
 	docker push $(DOCKER_REPOSITORY)
