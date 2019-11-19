@@ -14,7 +14,7 @@ default: test dev
 dev:
 	go run main.go
 
-lint: 
+lint:
 	golangci-lint run
 
 test:
@@ -23,7 +23,7 @@ test:
 install:
 	go build -o bin/onboarding-nsilva
 
-docker_build: 
+docker_build:
 	docker build -t $(DOCKER_REPOSITORY):$(GIT_HASH) .
 	docker tag $(DOCKER_REPOSITORY):$(GIT_HASH) $(DOCKER_REPOSITORY):latest
 
@@ -34,7 +34,7 @@ docker_push:
 	docker push $(DOCKER_REPOSITORY)
 
 k8s_push:
-	curl -X PATCH -k -d '{"spec":{"template":{"spec":{"containers":[{"name":"onboarding-nsilva","image":"$(DOCKER_REPOSITORY):latest"}]}}}}' \
+	curl -X PATCH -k -d '{"spec":{"template":{"spec":{"containers":[{"name":"onboarding-nsilva-service","image":"$(DOCKER_REPOSITORY):latest"}]}}}}' \
 		-H "Content-Type: application/strategic-merge-patch+json" \
 		-H "Authorization: Bearer $(K8S_DEV_TOKEN)" \
 		"https://elb.master.k8s.dev.uw.systems/apis/extensions/v1/namespaces/onboarding/deployments/onboarding-nsilva"
