@@ -8,7 +8,10 @@ import (
 
 func main() {
 	http.HandleFunc("/", tellTheTime)
-	http.ListenAndServe(":3000", nil)
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		fmt.Printf("error starting listener: %v", err)
+	}
 }
 
 func tellTheTime(w http.ResponseWriter, req *http.Request) {
