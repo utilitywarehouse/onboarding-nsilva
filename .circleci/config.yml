@@ -3,21 +3,32 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.13
-    
     steps:
       - checkout
-      
       - setup_remote_docker:
           docker_layer_caching: true
-
       - run: |
           make docker_build
           make docker_login
           make docker_push
-
+  
+  deploy:
+    docker:
+      - image: circleci/golang:1.13
+    steps:
+      - checkout
+      - run: make k8s_push 
+  
 workflows:
   version: 2
   onboarding:
     jobs:
       - build:
           context: onboarding
+      - deploy:
+          requires: 
+            - build
+          context: onboarding
+          filters:
+            branches:
+              only: master
