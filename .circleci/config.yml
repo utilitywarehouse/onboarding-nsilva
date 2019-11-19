@@ -10,5 +10,4 @@ jobs:
       - setup_remote_docker:
         docker_layer_caching: true
 
-      - run: |
-        make docker_build
+      - run: make docker_build
