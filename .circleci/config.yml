@@ -3,7 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.13
-
+    
+    context: onboarding
+    
     steps:
       - checkout
       
@@ -14,3 +16,10 @@ jobs:
           make docker_build
           make docker_login
           make docker_push
+
+workflows:
+  version: 2
+  onboarding:
+    jobs:
+      - build:
+          context: onboarding
