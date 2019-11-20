@@ -34,7 +34,7 @@ docker_push:
 	docker push $(DOCKER_REPOSITORY)
 
 k8s_push:
-	curl -X PATCH -k -d '{"spec":{"template":{"spec":{"containers":[{"name":"onboarding-nsilva","image":"$(DOCKER_REPOSITORY):latest"}]}}}}' \
+	curl -X PATCH -k -d '{"spec":{"template":{"spec":{"containers":[{"name":"onboarding-nsilva","image":"$(DOCKER_REPOSITORY):$(GIT_HASH)"}]}}}}' \
 		-H "Content-Type: application/strategic-merge-patch+json" \
 		-H "Authorization: Bearer $(K8S_DEV_TOKEN)" \
 		"https://elb.master.k8s.dev.uw.systems/apis/apps/v1/namespaces/onboarding/deployments/onboarding-nsilva"
